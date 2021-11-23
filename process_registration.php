@@ -1,6 +1,10 @@
 <?php
     include("dbh.php");
 
+    //Check if email logged in is valid or session is active
+    if(isset($_SESSION['email'])){
+        header('location: index.php');
+    }
     //Process Login
     if(isset($_POST['login'])){
         $email = strtolower($_POST['email']);
@@ -19,7 +23,7 @@
             if ($verify){
                 if($newCheckUser["validated"]==0){
                     $_SESSION['loginError'] = "Account is pending validation. Please wait for a while.";
-                    header("location: login.php?email=".$email);
+                    header("location: sign-in.php?email=".$email);
                 }
                 else{
                     $_SESSION['email'] = $newCheckUser["email"];
@@ -30,7 +34,7 @@
 
             } else {
                 $_SESSION['loginError'] = "Incorrect password!";
-                header("location: login.php?email=".$email);
+                header("location: sign-in.php?email=".$email);
             }
         }
     }

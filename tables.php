@@ -1,4 +1,5 @@
 <?php
+    require_once("process_tables.php");
     include("head.php");
     $_SESSION['sidebar'] = "table";
 ?>
