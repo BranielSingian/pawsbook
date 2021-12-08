@@ -14185,10 +14185,11 @@ svg.text-dark .color-background {
   fill: #191919; }
 
 .blur {
-  box-shadow: inset 0px 0px 2px #fefefed1;
+  color: white;
+  box-shadow: inset 0px 0px 2px rgb(251, 140, 0);
   -webkit-backdrop-filter: saturate(200%) blur(30px);
   backdrop-filter: saturate(200%) blur(30px);
-  background-color: rgba(255, 255, 255, 0.8) !important; }
+  background-color: rgb(251, 140, 0) !important; }
   .blur.saturation-less {
     -webkit-backdrop-filter: saturate(20%) blur(30px);
     backdrop-filter: saturate(20%) blur(30px); }

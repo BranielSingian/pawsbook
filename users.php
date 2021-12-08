@@ -30,7 +30,7 @@ if (isset($_GET['edit_user'])) {
         <div class="col-12">
           <?php if (isset($_SESSION['userError'])) { ?>
             <!-- Alert Here -->
-            <nav class="navbar navbar-expand-lg border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4 blur-danger">
+            <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
               <div class="container-fluid ps-2 pe-0">
                 <?php
                 echo $_SESSION['userError'];
@@ -45,7 +45,7 @@ if (isset($_GET['edit_user'])) {
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-successshadow-successborder-radius-lg pt-4 pb-3">
+              <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Add / Edit User</h6>
               </div>
             </div>
@@ -59,18 +59,12 @@ if (isset($_GET['edit_user'])) {
                         <select class="form-control" id="formControlSelectRole" name="role" value="<?php if(!$isAdding){echo  $user['role_id'];} ?>" required>
                           <option value="" disabled selected>Select</option>
                           <option value="1">Admin</option>
-                          <option value="2">Student</option>
-                          <option value="2">Vendor</option>
+                          <option value="2">User</option>
+                          <option value="3">Clinic Owner</option>
                         </select>
                       </div>
                     </div>
 
-                    <div class="col-md-6">
-                      <div class="input-group input-group-static mb-4">
-                        Student ID
-                        <input type="number" class="form-control" value="<?php if(!$isAdding){echo $user['student_id'];}else if(isset($_GET['student_id'])){echo $_GET['student_id']; } ?>" name="student_id" required>
-                      </div>
-                    </div>
                     <div class="col-md-6">
                       <div class="input-group input-group-static mb-4">
                         First Name
@@ -134,7 +128,7 @@ if (isset($_GET['edit_user'])) {
       <div class="col-12">
         <div class="card my-4">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-            <div class="bg-gradient-successshadow-successborder-radius-lg pt-4 pb-3">
+            <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
               <h6 class="text-white text-capitalize ps-3">List of users</h6>
             </div>
           </div>
@@ -144,7 +138,7 @@ if (isset($_GET['edit_user'])) {
                 <thead>
                   <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><i class="fas fa-user"></i> Fullname</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><i class="fas fa-hashtag"></i> ID Number</th>
+                    <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><i class="fas fa-hashtag"></i> ID Number</th> -->
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><i class="fas fa-phone"></i> Phone Number</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><i class="fas fa-scroll"></i> Role</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><i class="fas fa-check"></i> Validation Status</th>
@@ -165,9 +159,9 @@ if (isset($_GET['edit_user'])) {
                           </div>
                         </div>
                       </td>
-                      <td>
-                        <p class="text-xs text-secondary mb-0"><?php echo $user['student_id']; ?></p>
-                      </td>
+                      <!-- <td>
+                        <p class="text-xs text-secondary mb-0"><?php //echo $user['student_id']; ?></p>
+                      </td> -->
                       <td>
                         <p class="text-xs text-secondary mb-0"><?php echo $user['phone_number']; ?></p>
                       </td>
@@ -175,9 +169,9 @@ if (isset($_GET['edit_user'])) {
                         <?php if ($user['role'] == 1) { ?>
                           <span class="badge badge-sm bg-gradient-success">Admin</span>
                         <?php } else if ($user['role'] == 2) { ?>
-                          <span class="badge badge-sm bg-gradient-success">Student</span>
+                          <span class="badge badge-sm bg-gradient-success">User</span>
                         <?php } else { ?>
-                          <span class="badge badge-sm bg-gradient-warning">Store Owner</span>
+                          <span class="badge badge-sm bg-gradient-warning">Clinic Owner</span>
                         <?php } ?>
 
                       </td>
@@ -200,7 +194,6 @@ if (isset($_GET['edit_user'])) {
                             <?php } ?>
                             <a class="dropdown-item" href="users.php?edit_user=<?php echo $user['user_id']; ?>">Edit Information</a>
                             <a class="dropdown-item" href="profile.php?user=<?php echo $user['user_id']; ?>" target="_blank">View Profile</a>
-                            <a class="dropdown-item" href="card.php?user=<?php echo $user['user_id']; ?>" target="_blank">Enroll Card</a>
                             <button class="dropdown-item" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delete</button>
                             <div class="dropdown-menu shadow-danger mb-1">
                               <span class="dropdown-item">All information related to this user will be permanent. You cannot undo the changes. Confirm Deletion?</span>
