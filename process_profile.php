@@ -35,3 +35,5 @@ if (isset($_GET['getCaption'])) {
     }
     echo json_encode($posts);
 }
+
+?>
