@@ -1,4 +1,5 @@
 <?php
+    header("Access-Control-Allow-Headers: *");
     include("dbh.php");
     if(isset($_POST['update_profile'])){
         $user_id = $_POST['user_id'];
@@ -8,9 +9,20 @@
         $phone_number = $_POST['phone_number'];
 
         $mysqli->query("UPDATE users SET firstname = '$fname', lastname = '$lname', email = '$email', phone_number= '$phone_number'
-        WHERE id = '$user_id' ") or die ($mysqli->error());
+        WHERE id = '$user_id' ") or die ($mysqli->error);
 
         $_SESSION['profileError'] = "Profile has been updated!";
         header("location: profile.php?user=".$user_id);
+    }
+
+    if(isset($_GET['postCaption'])){
+        $data = json_decode(file_get_contents('php://input'), true);
+        $caption = $data['caption'];
+        $jsonEncode = array('caption' => $caption);
+        echo json_encode($jsonEncode);
+    }
+
+    if(isset($_GET['getCaption'])){
+
     }
 ?>

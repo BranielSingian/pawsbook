@@ -40,7 +40,7 @@ $user = $users->fetch_array();
                 <?php } ?>
             </div>
             <!-- Vue App Here -->
-            <span id="vueApp">
+            <span id="vueApp" class="show">
                 <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('./assets/img/profile-background.jpg');">
                     <span class="mask bg-gradient-success opacity-6"></span>
                 </div>
@@ -67,7 +67,7 @@ $user = $users->fetch_array();
 
                     <div class="row mb-4">
                         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-                            <div class="card bg-gradient-success" >
+                            <div class="card bg-gradient-success">
                                 <div class="card-header pb-0 bg-gradient-success">
                                     <div class="row">
                                         <div class="col-lg-6 col-7">
@@ -76,25 +76,54 @@ $user = $users->fetch_array();
                                     </div>
                                 </div>
                                 <div class="card-body px-0 pb-2">
+                                    <!-- Post a caption here -->
+                                    <form @submit.prevent="postCaption">
+                                        <div class="card p-2 m-2">
+                                            <div class="card-header pb-0">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-12">
+                                                        <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body px-0 pb-2 m-2">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="ms-3">
+                                                            <textarea class="form-control" minlength="4" rows="4" style="border: 1px solid" v-model="caption"></textarea>
+                                                        </div><br>
+                                                        <div class="text-end">
+                                                            <button class="btn btn-sm btn-success" type="submit"> Post</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- End post a caption here -->
+
                                     <!-- Posts will be shown here -->
+                                    <?php ?>
                                     <div class="card p-2 m-2">
                                         <div class="card-header pb-0">
                                             <div class="row">
                                                 <div class="col-lg-12 col-12">
-                                                    <h6>Your name here</h6>
+                                                    <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body px-0 pb-2 m-2">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="ms-3">Caption here</div>
+                                                    <div class="ms-3">{{ captionHere }}</div>
                                                     <div class="text-end">00-00-0000</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php ?>
                                     <!-- End posts here -->
+
                                 </div>
                             </div>
                         </div>
@@ -151,11 +180,8 @@ $user = $users->fetch_array();
                             </div>
                         </div>
                     </div>
-
                 </div>
-
                 <?php include("footer.php"); ?>
-
             </span>
             <!-- End Vue App Here -->
 
@@ -170,16 +196,61 @@ $user = $users->fetch_array();
         data() {
             return {
                 isEdit: false,
+                caption: null,
+                captionHere: null
             }
         },
         methods: {
             editInformation() {
                 this.isEdit = !this.isEdit;
 
-            }
+            },
+
+            //Post Caption
+            async postCaption() {
+                const options = {
+                    method: "POST",
+                    url: "process_profile.php?postCaption=" + <?php echo $_SESSION['user_id']; ?>,
+                    headers: {
+                        Accept: "application/json",
+                    },
+                    data: {
+                        caption: this.caption,
+                    },
+                };
+                await axios
+                    .request(options)
+                    .then((response) => {
+                        this.captionHere = response.data.caption;
+                    })
+                    .catch((error) => {
+                        console.log('error!')
+                    });
+            },
+
+            //Get Caption
+            async getCaption() {
+                const options = {
+                    method: "POST",
+                    url: "process_profile.php?getCaption=" + <?php echo $_SESSION['user_id']; ?>,
+                    headers: {
+                        Accept: "application/json",
+                    },
+                };
+                await axios
+                    .request(options)
+                    .then(() => {
+
+                    })
+                    .catch((error) => {
+
+                    });
+            },
+
+
         },
         mounted() {
-
+            this.getCaption();
         }
     });
 </script>
