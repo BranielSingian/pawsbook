@@ -3,11 +3,22 @@ require_once("process_profile.php");
 include("head.php");
 $_SESSION['sidebar'] = "profile";
 $session_user_id = $_SESSION['user_id'];
+
 if (isset($_GET['user'])) {
     $current_user = $_GET['user'];
 } else {
     $current_user = $session_user_id;
 }
+
+//Personal or others
+if($current_user == $session_user_id ){
+    $profile = "personal";
+}
+else{
+    $profile = "others";
+}
+
+
 $users = mysqli_query($mysqli, "SELECT *, u.id AS user_id
     FROM users u
     JOIN role r
@@ -47,8 +58,8 @@ $user = $users->fetch_array();
                     <input type="checkbox" class="snackclose animated" id="close" /><label class="snacklable animated" for="close"></label>
                     <div class="snackbar animated">
                         <p><strong>Notice:</strong> {{snackBarMessage}} <br>
-                        <span style="font-size: 10px !important;">Click to dismiss.</span>
-                    </p>
+                            <span style="font-size: 12px !important;">Click to dismiss.</span>
+                        </p>
                     </div>
                 </div>
                 <!-- End Snackbar -->
@@ -83,12 +94,18 @@ $user = $users->fetch_array();
                                 <div class="card-header pb-0 bg-gradient-success">
                                     <div class="row">
                                         <div class="col-lg-6 col-7">
-                                            <h6 class="text-white">Your Timeline</h6>
+                                            <?php if ($profile == "personal") { ?>
+                                                <h6 class="text-white">Your Timeline</h6>
+                                            <?php } else { ?>
+                                                <h6 class="text-white">Timeline</h6>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body px-0 pb-2">
+                                    
                                     <!-- Post a caption here -->
+                                    <?php if ($profile == "personal") { ?>
                                     <form @submit.prevent="postCaption">
                                         <div class="card p-2 m-2">
                                             <div class="card-header pb-0">
@@ -105,34 +122,37 @@ $user = $users->fetch_array();
                                                             <textarea class="form-control" minlength="4" rows="4" style="border: 1px solid" v-model="caption"></textarea>
                                                         </div><br>
                                                         <div class="text-end">
-                                                            <button class="btn btn-sm btn-success" type="submit"> Post</button>
+                                                            <button class="btn btn-sm btn-success" type="submit" :disabled="addingPost"> {{btnMessage}}</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
+                                    <?php }  ?>
                                     <!-- End post a caption here -->
 
                                     <!-- Posts will be shown here -->
                                     <?php ?>
-                                    <div class="card p-2 m-2">
-                                        <div class="card-header pb-0">
-                                            <div class="row">
-                                                <div class="col-lg-12 col-12">
-                                                    <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                    <span v-for="post in userPosts">
+                                        <div class="card p-2 m-2">
+                                            <div class="card-header pb-0">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-12">
+                                                        <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body px-0 pb-2 m-2">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="ms-3">{{ post.user_post }}</div>
+                                                        <div class="text-end">{{ post.date_added }}</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body px-0 pb-2 m-2">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="ms-3">{{ captionHere }}</div>
-                                                    <div class="text-end">00-00-0000</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </span>
                                     <?php ?>
                                     <!-- End posts here -->
 
@@ -213,6 +233,11 @@ $user = $users->fetch_array();
                 captionHere: null,
                 showSnackBar: false,
                 snackBarMessage: null,
+                addingPost: false,
+                btnMessage: "Post",
+
+                //Posts
+                userPosts: [],
             }
         },
         methods: {
@@ -223,9 +248,11 @@ $user = $users->fetch_array();
 
             //Post Caption
             async postCaption() {
+                this.addingPost = true;
+                this.btnMessage = "Posting..."
                 const options = {
                     method: "POST",
-                    url: "process_profile.php?postCaption=" + <?php echo $_SESSION['user_id']; ?>,
+                    url: "process_profile.php?postCaption=" + <?php echo $current_user; ?>,
                     headers: {
                         Accept: "application/json",
                     },
@@ -237,27 +264,31 @@ $user = $users->fetch_array();
                     .request(options)
                     .then((response) => {
                         this.showSnackBar = true;
-                        this.snackBarMessage = "Caption has been posted!";
-                        this.captionHere = response.data.caption;
+                        this.snackBarMessage = response.data.response;
+                        this.caption = "";
                     })
                     .catch((error) => {
                         console.log('error!')
                     });
+                this.addingPost = false;
+                this.btnMessage = "Post";
+                await this.getCaption();
             },
 
             //Get Caption
             async getCaption() {
                 const options = {
                     method: "POST",
-                    url: "process_profile.php?getCaption=" + <?php echo $_SESSION['user_id']; ?>,
+                    url: "process_profile.php?getCaption=" + <?php echo $current_user; ?>,
                     headers: {
                         Accept: "application/json",
                     },
                 };
                 await axios
                     .request(options)
-                    .then(() => {
-
+                    .then((response) => {
+                        console.log(response);
+                        this.userPosts = response.data
                     })
                     .catch((error) => {
                         this.showSnackBar = true;
