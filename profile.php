@@ -41,6 +41,18 @@ $user = $users->fetch_array();
             </div>
             <!-- Vue App Here -->
             <span id="vueApp" class="show">
+
+                <!-- Snackbar -->
+                <div class="snack-wrap" v-if="showSnackBar" @click="showSnackBar=false">
+                    <input type="checkbox" class="snackclose animated" id="close" /><label class="snacklable animated" for="close"></label>
+                    <div class="snackbar animated">
+                        <p><strong>Notice:</strong> {{snackBarMessage}} <br>
+                        <span style="font-size: 10px !important;">Click to dismiss.</span>
+                    </p>
+                    </div>
+                </div>
+                <!-- End Snackbar -->
+
                 <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('./assets/img/profile-background.jpg');">
                     <span class="mask bg-gradient-success opacity-6"></span>
                 </div>
@@ -190,6 +202,7 @@ $user = $users->fetch_array();
         <!--   Core JS Files   -->
         <?php include("core-js-files.php"); ?>
 </body>
+
 <script>
     new Vue({
         el: "#vueApp",
@@ -197,7 +210,9 @@ $user = $users->fetch_array();
             return {
                 isEdit: false,
                 caption: null,
-                captionHere: null
+                captionHere: null,
+                showSnackBar: false,
+                snackBarMessage: null,
             }
         },
         methods: {
@@ -221,6 +236,8 @@ $user = $users->fetch_array();
                 await axios
                     .request(options)
                     .then((response) => {
+                        this.showSnackBar = true;
+                        this.snackBarMessage = "Caption has been posted!";
                         this.captionHere = response.data.caption;
                     })
                     .catch((error) => {
@@ -243,7 +260,8 @@ $user = $users->fetch_array();
 
                     })
                     .catch((error) => {
-
+                        this.showSnackBar = true;
+                        this.snackBarMessage = "There is an error getting the information. Please try again.";
                     });
             },
 

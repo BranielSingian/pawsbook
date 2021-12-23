@@ -31,6 +31,10 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+
+  <!-- Snackbar-->
+  <link id="pagestyle" href="./assets/css/snackbar.css" rel="stylesheet" />
+
   <style>
       .bg-gradient-primary{
         background-color: #4caf50 !important;

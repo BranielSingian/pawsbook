@@ -23,6 +23,6 @@
     }
 
     if(isset($_GET['getCaption'])){
-
+        echo "There is an error processing the request.";
     }
 ?>
