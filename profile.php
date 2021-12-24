@@ -11,10 +11,9 @@ if (isset($_GET['user'])) {
 }
 
 //Personal or others
-if($current_user == $session_user_id ){
+if ($current_user == $session_user_id) {
     $profile = "personal";
-}
-else{
+} else {
     $profile = "others";
 }
 
@@ -103,32 +102,32 @@ $user = $users->fetch_array();
                                     </div>
                                 </div>
                                 <div class="card-body px-0 pb-2">
-                                    
+
                                     <!-- Post a caption here -->
                                     <?php if ($profile == "personal") { ?>
-                                    <form @submit.prevent="postCaption">
-                                        <div class="card p-2 m-2">
-                                            <div class="card-header pb-0">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-12">
-                                                        <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                        <form @submit.prevent="postCaption">
+                                            <div class="card p-2 m-2">
+                                                <div class="card-header pb-0">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-12">
+                                                            <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body px-0 pb-2 m-2">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="ms-3">
-                                                            <textarea class="form-control" minlength="4" rows="4" style="border: 1px solid" v-model="caption"></textarea>
-                                                        </div><br>
-                                                        <div class="text-end">
-                                                            <button class="btn btn-sm btn-success" type="submit" :disabled="addingPost"> {{btnMessage}}</button>
+                                                <div class="card-body px-0 pb-2 m-2">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="ms-3">
+                                                                <textarea class="form-control" minlength="4" rows="4" style="border: 1px solid" v-model="caption"></textarea>
+                                                            </div><br>
+                                                            <div class="text-end">
+                                                                <button class="btn btn-sm btn-success" type="submit" :disabled="addingPost"> {{btnMessage}}</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
                                     <?php }  ?>
                                     <!-- End post a caption here -->
 
@@ -139,7 +138,22 @@ $user = $users->fetch_array();
                                             <div class="card-header pb-0">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-12">
-                                                        <h6><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></h6>
+                                                        <span class="h6"><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?></span>
+                                                        <span style="float: right;">
+                                                            <a class="btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-h"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu shadow-success">
+                                                                <a class="dropdown-item" href="#">Edit Post</a>
+                                                                <!-- <a class="dropdown-item" href="profile.php?user=<?php echo $user['user_id']; ?>" target="_blank">View Profile</a> -->
+                                                                <button class="dropdown-item" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delete</button>
+                                                                <div class="dropdown-menu shadow-danger mb-1">
+                                                                    <span class="dropdown-item">Confirm Deletion of post? This cannot be undone.</span>
+                                                                    <a class="dropdown-item text-success" href="#">Cancel</a>
+                                                                    <a class="dropdown-item text-danger" @click="deletePost(post.id)">Confirm Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,6 +309,31 @@ $user = $users->fetch_array();
                         this.snackBarMessage = "There is an error getting the information. Please try again.";
                     });
             },
+
+            //Delete Post
+            async deletePost(id){
+                this.btnMessage = "Deleting.."
+                const options = {
+                    method: "POST",
+                    url: "process_profile.php?deletePost=" + id,
+                    headers: {
+                        Accept: "application/json",
+                    },
+                    data: {
+                        postId: id,
+                    },
+                };
+                await axios
+                    .request(options)
+                    .then((response) => {
+                        this.showSnackBar = true;
+                        this.snackBarMessage = response.data.response;
+                    })
+                    .catch((error) => {
+                        console.log('error!')
+                    });
+                await this.getCaption();
+            }
 
 
         },
