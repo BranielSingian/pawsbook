@@ -42,7 +42,7 @@
             </div>
             <span class="nav-link-text ms-1">Basic Remedy for Pets</span>
           </a>
-        </li>
+        </li>    
           
 
         <li class="nav-item" style="display: none;">
@@ -53,6 +53,9 @@
             <span class="nav-link-text ms-1">Billing</span>
           </a>
         </li>
+
+
+
 
         <!-- <li class="nav-item">
           <a class="nav-link text-white " href="./pages/virtual-reality.html">
