@@ -43,7 +43,15 @@
             <span class="nav-link-text ms-1">Basic Remedy for Pets</span>
           </a>
         </li>    
-          
+
+                <li class="nav-item">
+          <a class="nav-link text-white <?php if($_SESSION['sidebar'] == "Pet Tracking"){echo "active bg-gradient-success";} ?>" href="remedy.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fas fa-location-arrow"></i>
+            </div>
+            <span class="nav-link-text ms-1">Pet Tracking</span>
+          </a>
+        </li>  
 
         <li class="nav-item" style="display: none;">
           <a class="nav-link text-white <?php if($_SESSION['sidebar'] == "billing"){echo "active bg-gradient-success";} ?>" href="billing.php">

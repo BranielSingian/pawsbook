@@ -36,8 +36,15 @@
   <link id="pagestyle" href="./assets/css/snackbar.css" rel="stylesheet" />
 
   <style>
-      .bg-gradient-primary{
-        background-color: #4caf50 !important;
-      }
+    .bg-gradient-primary {
+      background-color: #4caf50 !important;
+    }
   </style>
+
+  <!-- LeafLet -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+  <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.13.2/mapbox-gl.js"></script>
+  <script src="https://cdn.maptiler.com/mapbox-gl-leaflet/latest/leaflet-mapbox-gl.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+  <link rel="stylesheet" href="https://cdn.maptiler.com/mapbox-gl-js/v1.13.2/mapbox-gl.css" />
 </head>
