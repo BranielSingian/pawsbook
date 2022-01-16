@@ -33,6 +33,7 @@ $_SESSION['sidebar'] = "Pet Tracking";
               </div>
               <div class="card-body px-0 pb-2">
                 <p class="m-4">Long: {{long}} <br>Lat: {{lat}}</p>
+                <p class="m-4"><b>Please put this tracker safely into a harness. Thank you!</b></p>
                 <div id="map"></div>
               </div>
             </div>
