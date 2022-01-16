@@ -191,7 +191,7 @@ $current_user = $_SESSION['user_id'];
                 distance = (distance / 1000).toFixed(4);;
                 this.petDistance = distance;
                 console.log(distance);
-                this.delay(20000).then(() => this.getLocation());
+                this.delay(60000).then(() => this.getLocation());
             },
 
             //Compute the distance in meters
