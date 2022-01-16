@@ -15,6 +15,8 @@
         header("location: profile.php?user=" . $user_id);
     }
 
+
+    //Post Caption
     if (isset($_GET['postCaption'])) {
         $data = json_decode(file_get_contents('php://input'), true);
         $_caption = $data['caption'];

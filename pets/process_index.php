@@ -1,4 +1,7 @@
 <?php
+    header("Access-Control-Allow-Headers: *");
+    $currentDateTime = date_default_timezone_set('Asia/Manila');
+    $currentDateTime = date('Y-m-d H:i:s');
     include("../dbh.php");
 
     if (isset($_GET['postCaption'])) {
@@ -105,4 +108,17 @@
         }
         echo json_encode($posts);
     }
+
+
+    //Upload pet's location
+    if (isset($_GET['uploadPetLocation'])) {
+        $user_id = $_GET['uploadPetLocation'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        $pet_lat = $data['pet_lat'];
+        $pet_long = $data['pet_long'];
+        $created_at = $currentDateTime;
+        $mysqli->query(" INSERT INTO pet_location (user_id, pet_lat, pet_long, created_at) VALUES('$user_id','$pet_lat','$pet_long', '$created_at') ") or die($mysqli->error);
+        $jsonEncode = array('response' => 'Location has been added.');
+        echo json_encode($jsonEncode);
+    }    
 ?>
