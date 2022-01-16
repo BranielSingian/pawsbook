@@ -44,8 +44,8 @@
           </a>
         </li>    
 
-                <li class="nav-item">
-          <a class="nav-link text-white <?php if($_SESSION['sidebar'] == "Pet Tracking"){echo "active bg-gradient-success";} ?>" href="remedy.php">
+        <li class="nav-item">
+          <a class="nav-link text-white <?php if($_SESSION['sidebar'] == "Pet Tracking"){echo "active bg-gradient-success";} ?>" href="tracker.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fas fa-location-arrow"></i>
             </div>
