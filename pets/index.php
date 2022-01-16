@@ -44,6 +44,7 @@ $_SESSION['sidebar'] = "Pet Tracking";
       </div>
 
     </span>
+    <div id="map"></div>
   </main>
   <?php //include("fixed-plugin.php"); 
   ?>
@@ -115,49 +116,17 @@ $_SESSION['sidebar'] = "Pet Tracking";
     }
   });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly&channel=2" async></script>
 
 <script>
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 8,
-    center: { lat: 40.731, lng: -73.997 },
-  });
-  const geocoder = new google.maps.Geocoder();
-  const infowindow = new google.maps.InfoWindow();
+  var map = L.map('map').setView([51.505, -0.09], 13);
 
-  document.getElementById("submit").addEventListener("click", () => {
-    geocodeLatLng(geocoder, map, infowindow);
-  });
-}
+  L.tileLayer('https://api.maptiler.com/maps/outdoor/?key=gcypTzmAMjrlMg46MJG3#7.0/46.67124/8.29951', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-function geocodeLatLng(geocoder, map, infowindow) {
-  const input = document.getElementById("latlng").value;
-  const latlngStr = input.split(",", 2);
-  const latlng = {
-    lat: parseFloat(latlngStr[0]),
-    lng: parseFloat(latlngStr[1]),
-  };
-
-  geocoder
-    .geocode({ location: latlng })
-    .then((response) => {
-      if (response.results[0]) {
-        map.setZoom(11);
-
-        const marker = new google.maps.Marker({
-          position: latlng,
-          map: map,
-        });
-
-        infowindow.setContent(response.results[0].formatted_address);
-        infowindow.open(map, marker);
-      } else {
-        window.alert("No results found");
-      }
-    })
-    .catch((e) => window.alert("Geocoder failed due to: " + e));
-}
+  L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
 
 </script>
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
