@@ -60,11 +60,11 @@
               <div class="card-body">
                 <form role="form" class="text-start" method="post" action="process_registration.php">
                   <div class="input-group input-group-static my-3">
-                    <label class="form-label" style="font-size: 1rem;">Email</label>
+                    <label style="font-size: 0.8rem;">Email</label>
                     <input type="text" name="email" value="<?php if(isset($_GET['email'])){echo $_GET['email'];} ?>" class="form-control" style="font-size: 1rem;">
                   </div>
                   <div class="input-group input-group-static mb-3">
-                    <label class="form-label" style="font-size: 1rem;">Password</label>
+                    <label style="font-size: 0.8rem;">Password</label>
                     <input type="password" name="password" class="form-control" style="font-size: 1rem;">
                   </div>
 <!--                  <div class="form-check form-switch d-flex align-items-center mb-3">-->
