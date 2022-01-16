@@ -68,6 +68,12 @@ $current_user = $_SESSION['user_id'];
                     </div>
                 </div>
 
+                <center>
+                    <button class="btn btn-warning text-dark" @click="getLocation()">
+                        Update pet location
+                    </button>
+                </center>
+
                 <?php include("footer.php"); ?>
             </div>
 
