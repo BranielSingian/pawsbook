@@ -44,7 +44,32 @@ $current_user = $_SESSION['user_id'];
                             <div class="card-body px-0 pb-2">
                                 <!-- <p class="m-4">Long: {{long}} <br>Lat: {{lat}}</p> -->
                                 <p class="m-4"><b>Please refer to the map below to see your pet's and your location.</b></p>
+                                <form @submit.prevent="getLocation">
+                                    <!-- <div class="card p-2 m-2"> -->
+                                    <div class="card-body px-0 pb-2 m-2">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                            <h6>Put the allowed distance between you and your pet. (In KiloMeter)</h6>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input class="form-control" type="number" style="border: 1px solid" v-model="allowedDistance"></input>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <button class="btn btn-sm btn-success m-1" type="submit">Update Distance</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- </div> -->
+                                </form>
                                 <p class="m-4"><b>The distance between you and your pet is {{petDistance}} KM.</b></p>
+
+                                <div class="row" v-if="petOutOfRange">
+                                    <div class="col-lg-12">
+                                        <center>
+                                        <button type="submit" name="register_account" id="register_account" class="btn btn-lg bg-gradient-danger btn-lg w-90 m-1 mr-1">Your pet is out of range!</button>
+                                        </center>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -112,6 +137,8 @@ $current_user = $_SESSION['user_id'];
 
                 //Distance
                 petDistance: 0,
+                allowedDistance: 1,
+                petOutOfRange: false,
             }
         },
         methods: {
@@ -177,6 +204,7 @@ $current_user = $_SESSION['user_id'];
 
                 console.log(petLocation);
 
+                //For pet
                 var petIcon = L.icon({
                     iconUrl: 'assets/img/pet.png',
                     iconSize: [50, 50],
@@ -191,11 +219,22 @@ $current_user = $_SESSION['user_id'];
                         autoPan: false
                     })
                     .openPopup();
-                
+
+                //For Circle polygon
+                let _allowedDistance = this.allowedDistance * 1000;
+                L.circle([userLat, userLong], _allowedDistance).addTo(map);
+
                 let distance = this.getDistance([petLat, petLong], [userLat, userLong]);
+                if(distance > _allowedDistance){
+                    this.petOutOfRange = true;
+                }
+                else{
+                    this.petOutOfRange = false;
+                }
                 //Into KM
-                distance = (distance / 1000).toFixed(4);;
+                distance = (distance / 1000).toFixed(4);
                 this.petDistance = distance;
+
                 console.log(distance);
                 this.delay(60000).then(() => this.getLocation());
             },
