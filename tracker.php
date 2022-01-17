@@ -49,7 +49,7 @@ $current_user = $_SESSION['user_id'];
                                     <div class="card-body px-0 pb-2 m-2">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                            <h6>Put the allowed distance between you and your pet. (In KiloMeter)</h6>
+                                            <h6>Put the allowed distance between you and your pet. (in meters)</h6>
                                             </div>
                                             <div class="col-lg-6">
                                                 <input class="form-control" type="number" step="any" style="border: 1px solid" v-model="allowedDistance"></input>
@@ -221,7 +221,8 @@ $current_user = $_SESSION['user_id'];
                     .openPopup();
 
                 //For Circle polygon
-                let _allowedDistance = this.allowedDistance * 1000;
+                // let _allowedDistance = this.allowedDistance * 1000; // in KM
+                let _allowedDistance = this.allowedDistance;
                 L.circle([userLat, userLong], _allowedDistance).addTo(map);
 
                 let distance = this.getDistance([petLat, petLong], [userLat, userLong]);
