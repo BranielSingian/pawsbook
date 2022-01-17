@@ -52,7 +52,7 @@ $current_user = $_SESSION['user_id'];
                                             <h6>Put the allowed distance between you and your pet. (In KiloMeter)</h6>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input class="form-control" type="number" style="border: 1px solid" v-model="allowedDistance"></input>
+                                                <input class="form-control" type="number" step="any" style="border: 1px solid" v-model="allowedDistance"></input>
                                             </div>
                                             <div class="col-lg-6">
                                                 <button class="btn btn-sm btn-success m-1" type="submit">Update Distance</button>
