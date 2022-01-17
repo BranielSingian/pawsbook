@@ -137,7 +137,7 @@ $current_user = $_SESSION['user_id'];
 
                 //Distance
                 petDistance: 0,
-                allowedDistance: 1,
+                allowedDistance: 100,
                 petOutOfRange: false,
             }
         },
@@ -222,7 +222,7 @@ $current_user = $_SESSION['user_id'];
 
                 //For Circle polygon
                 // let _allowedDistance = this.allowedDistance * 1000; // in KM
-                let _allowedDistance = this.allowedDistance;
+                let _allowedDistance = this.allowedDistance * 1;
                 L.circle([userLat, userLong], _allowedDistance).addTo(map);
 
                 let distance = this.getDistance([petLat, petLong], [userLat, userLong]);
